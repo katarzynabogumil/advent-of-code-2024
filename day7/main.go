@@ -51,6 +51,10 @@ func checkValuePart2(testValue int, val int, arr []int) bool {
 		return false
 	}
 
+	if val > testValue {
+		return false
+	}
+
 	return checkValuePart2(testValue, val*arr[0], arr[1:]) ||
 		checkValuePart2(testValue, val+arr[0], arr[1:]) ||
 		checkValuePart2(testValue, combine(val, arr[0]), arr[1:])
@@ -77,6 +81,10 @@ func checkValuePart1(testValue int, val int, arr []int) bool {
 	}
 
 	if len(arr) == 0 {
+		return false
+	}
+
+	if val > testValue {
 		return false
 	}
 
