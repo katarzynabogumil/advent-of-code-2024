@@ -101,57 +101,6 @@ func isRobot(robots [][]Point, robotToCheck Point) bool {
 	return false
 }
 
-// First I tried to look for a christmas tree in a pyramid shape
-
-// func checkShape(inputRobots [][]Point) bool {
-// 	robots := orderRobots(inputRobots)
-
-// 	for i := 0; i < len(robots); i++ {
-// 		if len(robots[i]) != i+1 {
-// 			return false
-// 		}
-
-// 		if i > 0 &&
-// 			robots[i][0].x != robots[i-1][0].x-1 &&
-// 			robots[i][len(robots[i])-1].x != robots[i-1][len(robots[i-1])-1].x+1 {
-// 			return false
-// 		}
-// 	}
-
-// 	return true
-// }
-
-// func orderRobots(robots [][]Point) [][]Point {
-// 	lines := [][]Point{}
-
-// 	slices.SortFunc(robots, func(a, b []Point) int {
-// 		if a[0].y != b[0].y {
-// 			return a[0].y - b[0].y
-// 		}
-// 		return a[0].x - b[0].x
-// 	})
-
-// 	line := []Point{(robots)[0][0]}
-
-// 	for i := 1; i < len(robots); i++ {
-// 		if robots[i][0].y == robots[i-1][0].y {
-// 			if robots[i][0].x != robots[i-1][0].x {
-// 				line = append(line, robots[i][0])
-// 			}
-
-// 		} else {
-// 			lines = append(lines, line)
-// 			line = []Point{robots[i][0]}
-// 		}
-// 	}
-
-// 	if len(lines) != 0 {
-// 		lines = append(lines, line)
-// 	}
-
-// 	return lines
-// }
-
 func part1(robots [][]Point, sizeX int, sizeY int, seconds int) int {
 	for range seconds {
 		for _, robot := range robots {
