@@ -32,23 +32,23 @@ func main() {
 }
 
 func part2(input []string) int {
-	moveBlocksPart2(&input)
-	return checkSum(&input)
+	moveBlocksPart2(input)
+	return checkSum(input)
 }
 
-func moveBlocksPart2(input *[]string) {
-	for i := len(*input) - 1; i > 0; i-- {
-		if (*input)[i] != "." {
-			blockLength := getBlockLength((*input)[i], i, input)
+func moveBlocksPart2(input []string) {
+	for i := len(input) - 1; i > 0; i-- {
+		if input[i] != "." {
+			blockLength := getBlockLength(input[i], i, input)
 
 			for j := 0; j < i; j++ {
-				if (*input)[j] == "." {
+				if input[j] == "." {
 					spaceLength := getSpaceLength(j, input)
 
 					if blockLength <= spaceLength {
 						for k := range blockLength {
-							(*input)[j+k] = (*input)[i-k]
-							(*input)[i-k] = "."
+							input[j+k] = input[i-k]
+							input[i-k] = "."
 						}
 						break
 					}
@@ -60,10 +60,10 @@ func moveBlocksPart2(input *[]string) {
 	}
 }
 
-func getSpaceLength(idx int, input *[]string) int {
+func getSpaceLength(idx int, input []string) int {
 	counter := 1
-	for i := idx + 1; i < len(*input); i++ {
-		if (*input)[i] == "." {
+	for i := idx + 1; i < len(input); i++ {
+		if input[i] == "." {
 			counter++
 		} else {
 			break
@@ -72,10 +72,10 @@ func getSpaceLength(idx int, input *[]string) int {
 	return counter
 }
 
-func getBlockLength(value string, idx int, input *[]string) int {
+func getBlockLength(value string, idx int, input []string) int {
 	counter := 1
 	for i := idx - 1; i > 0; i-- {
-		if (*input)[i] == value {
+		if input[i] == value {
 			counter++
 		} else {
 			break
@@ -85,22 +85,22 @@ func getBlockLength(value string, idx int, input *[]string) int {
 }
 
 func part1(input []string) int {
-	moveBlocksPart1(&input)
-	return checkSum(&input)
+	moveBlocksPart1(input)
+	return checkSum(input)
 }
 
-func moveBlocksPart1(input *[]string) {
-	for i, value := range *input {
-		res := checkForDigits((*input)[i:])
+func moveBlocksPart1(input []string) {
+	for i, value := range input {
+		res := checkForDigits(input[i:])
 		if !res {
 			break
 		}
 
 		if value == "." {
-			for j := len(*input) - 1; j > 0; j-- {
-				if (*input)[j] != "." {
-					(*input)[i] = (*input)[j]
-					(*input)[j] = "."
+			for j := len(input) - 1; j > 0; j-- {
+				if input[j] != "." {
+					input[i] = input[j]
+					input[j] = "."
 					break
 				}
 			}
@@ -117,9 +117,9 @@ func checkForDigits(arr []string) bool {
 	return false
 }
 
-func checkSum(input *[]string) int {
+func checkSum(input []string) int {
 	sum := 0
-	for i, value := range *input {
+	for i, value := range input {
 		if value == "." {
 			continue
 		}

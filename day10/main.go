@@ -41,11 +41,11 @@ func main() {
 	fmt.Printf("Part 2: %v in %s\n", resPart2, time)
 }
 
-func solve(matrix *[][]int, trailheads *[]Point) (int, int) {
+func solve(matrix [][]int, trailheads []Point) (int, int) {
 	sumP1 := 0
 	sumP2 := 0
 
-	for _, start := range *trailheads {
+	for _, start := range trailheads {
 		trailends := map[string]int{}
 		x := start.x
 		y := start.y
@@ -57,16 +57,16 @@ func solve(matrix *[][]int, trailheads *[]Point) (int, int) {
 	return sumP1, sumP2
 }
 
-func checkNextStep(matrix *[][]int, prevX int, prevY int, scoreP1 int, scoreP2 int, trailends *map[string]int) (int, int) {
-	sizeX := len((*matrix)[0])
-	sizeY := len(*matrix)
-	prevValue := (*matrix)[prevY][prevX]
+func checkNextStep(matrix [][]int, prevX int, prevY int, scoreP1 int, scoreP2 int, trailends *map[string]int) (int, int) {
+	sizeX := len(matrix[0])
+	sizeY := len(matrix)
+	prevValue := matrix[prevY][prevX]
 
 	for _, vector := range Vectors {
 		x := prevX + vector.x
 		y := prevY + vector.y
 		if x >= 0 && y >= 0 && x < sizeX && y < sizeY {
-			value := (*matrix)[y][x]
+			value := matrix[y][x]
 
 			if value == prevValue+1 {
 				if value == 9 {
@@ -89,7 +89,7 @@ func str(p Point) string {
 	return fmt.Sprintf("%d,%d", p.x, p.y)
 }
 
-func parseInput(input string) (*[][]int, *[]Point, error) {
+func parseInput(input string) ([][]int, []Point, error) {
 	matrix := [][]int{}
 	trailheads := []Point{}
 
@@ -111,5 +111,5 @@ func parseInput(input string) (*[][]int, *[]Point, error) {
 		matrix = append(matrix, arr)
 	}
 
-	return &matrix, &trailheads, nil
+	return matrix, trailheads, nil
 }

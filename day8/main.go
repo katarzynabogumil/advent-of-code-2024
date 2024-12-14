@@ -30,13 +30,13 @@ func main() {
 	fmt.Printf("Part 2: %v in %s\n", resPart2, timePart2)
 }
 
-func part2(matrix *[][]string, antennas *map[string][]Point) int {
+func part2(matrix [][]string, antennas map[string][]Point) int {
 	counter := 0
 	antidotes := map[string]int{}
-	sizeX := len((*matrix)[0])
-	sizeY := len(*matrix)
+	sizeX := len(matrix[0])
+	sizeY := len(matrix)
 
-	for _, arr := range *antennas {
+	for _, arr := range antennas {
 		if len(arr) == 0 {
 			continue
 		}
@@ -67,7 +67,7 @@ func part2(matrix *[][]string, antennas *map[string][]Point) int {
 							antidotes[str(newP)] = 1
 							counter++
 
-							// (*matrix)[newP.y][newP.x] = "#" // debug
+							// matrix[newP.y][newP.x] = "#" // debug
 						}
 						newP = Point{newP.x + diffX, newP.y + diffY}
 					}
@@ -79,7 +79,7 @@ func part2(matrix *[][]string, antennas *map[string][]Point) int {
 							antidotes[str(newP)] = 1
 							counter++
 
-							// (*matrix)[newP.y][newP.x] = "#" // debug
+							// matrix[newP.y][newP.x] = "#" // debug
 						}
 						newP = Point{newP.x - diffX, newP.y - diffY}
 					}
@@ -92,13 +92,13 @@ func part2(matrix *[][]string, antennas *map[string][]Point) int {
 	return counter
 }
 
-func part1(matrix *[][]string, antennas *map[string][]Point) int {
+func part1(matrix [][]string, antennas map[string][]Point) int {
 	counter := 0
 	antidotes := map[string]int{}
-	sizeX := len((*matrix)[0])
-	sizeY := len(*matrix)
+	sizeX := len(matrix[0])
+	sizeY := len(matrix)
 
-	for _, arr := range *antennas {
+	for _, arr := range antennas {
 		if len(arr) == 0 {
 			continue
 		}
@@ -134,7 +134,7 @@ func str(p Point) string {
 	return fmt.Sprintf("%d,%d", p.x, p.y)
 }
 
-func parseInput(input string) (*[][]string, *map[string][]Point) {
+func parseInput(input string) ([][]string, map[string][]Point) {
 	var matrix [][]string
 	antennas := map[string][]Point{}
 
@@ -147,11 +147,11 @@ func parseInput(input string) (*[][]string, *map[string][]Point) {
 		}
 		matrix = append(matrix, row)
 	}
-	return &matrix, &antennas
+	return matrix, antennas
 }
 
-// func printMatrix(matrix *[][]string) {
-// 	for _, line := range *matrix {
+// func printMatrix(matrix [][]string) {
+// 	for _, line := range matrix {
 // 		for _, val := range line {
 // 			fmt.Print(val)
 // 		}

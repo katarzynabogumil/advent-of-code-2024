@@ -228,13 +228,13 @@ func parseInput(input string) ([][]Point, error) {
 	return lines, nil
 }
 
-// func printMatrix(robots *[][]Point, sizeX int, sizeY int) {
+// func printMatrix(robots [][]Point, sizeX int, sizeY int) {
 // 	for y := range sizeY {
 // 		line := []int{}
 
 // 		for x := range sizeX {
 // 			count := 0
-// 			for _, robot := range *robots {
+// 			for _, robot := range robots {
 // 				if robot[0].x == x && robot[0].y == y {
 // 					count++
 // 				}

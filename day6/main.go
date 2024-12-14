@@ -41,7 +41,7 @@ func main() {
 	fmt.Printf("Part 2: %v in %s\n", resPart2, timePart2)
 }
 
-func part2(matrix *[][]string) int {
+func part2(matrix [][]string) int {
 	counter := 0
 	obstacles := map[string]int{}
 
@@ -49,8 +49,8 @@ func part2(matrix *[][]string) int {
 		p := Point{Path[i].x, Path[i].y}
 		nextP := Point{Path[i+1].x, Path[i+1].y}
 
-		val := (*matrix)[nextP.y][nextP.x]
-		(*matrix)[nextP.y][nextP.x] = "#"
+		val := matrix[nextP.y][nextP.x]
+		matrix[nextP.y][nextP.x] = "#"
 		vector := Point{nextP.x - p.x, nextP.y - p.y}
 
 		if obstacles[str(nextP)] != 1 && checkIfLoop(matrix, p, vector) && !slices.Contains(Path[:i], nextP) {
@@ -58,7 +58,7 @@ func part2(matrix *[][]string) int {
 			counter += 1
 		}
 
-		(*matrix)[nextP.y][nextP.x] = val
+		matrix[nextP.y][nextP.x] = val
 	}
 
 	// printMatrix(matrix, Point{0, 0}, Point{0, 1})
@@ -66,7 +66,7 @@ func part2(matrix *[][]string) int {
 	return counter
 }
 
-func checkIfLoop(matrix *[][]string, p1 Point, vector1 Point) bool {
+func checkIfLoop(matrix [][]string, p1 Point, vector1 Point) bool {
 	corners := map[string]int{}
 
 	point := p1
@@ -87,32 +87,32 @@ func checkIfLoop(matrix *[][]string, p1 Point, vector1 Point) bool {
 	}
 }
 
-func checkIfNextObstacle(matrix *[][]string, p Point, vector Point) (bool, Point) {
+func checkIfNextObstacle(matrix [][]string, p Point, vector Point) (bool, Point) {
 	switch {
 	case vector.x == -1 && vector.y == 0:
 		for i := p.x - 1; i >= 0; i-- {
-			if (*matrix)[p.y][i] == "#" {
+			if matrix[p.y][i] == "#" {
 				return true, Point{i + 1, p.y}
 			}
 		}
 		return false, Point{0, 0}
 	case vector.x == 0 && vector.y == -1:
 		for i := p.y - 1; i >= 0; i-- {
-			if (*matrix)[i][p.x] == "#" {
+			if matrix[i][p.x] == "#" {
 				return true, Point{p.x, i + 1}
 			}
 		}
 		return false, Point{0, 0}
 	case vector.x == 1 && vector.y == 0:
-		for i := p.x + 1; i < len((*matrix)[0]); i++ {
-			if (*matrix)[p.y][i] == "#" {
+		for i := p.x + 1; i < len(matrix[0]); i++ {
+			if matrix[p.y][i] == "#" {
 				return true, Point{i - 1, p.y}
 			}
 		}
 		return false, Point{0, 0}
 	case vector.x == 0 && vector.y == 1:
-		for i := p.y + 1; i < len(*matrix); i++ {
-			if (*matrix)[i][p.x] == "#" {
+		for i := p.y + 1; i < len(matrix); i++ {
+			if matrix[i][p.x] == "#" {
 				return true, Point{p.x, i - 1}
 			}
 		}
@@ -121,35 +121,35 @@ func checkIfNextObstacle(matrix *[][]string, p Point, vector Point) (bool, Point
 	return false, Point{0, 0}
 }
 
-func part1(matrix *[][]string, p Point) int {
+func part1(matrix [][]string, p Point) int {
 	return 1 + traverseMatrix(matrix, p, Point{0, -1})
 }
 
-func traverseMatrix(matrix *[][]string, prev Point, vector Point) int {
+func traverseMatrix(matrix [][]string, prev Point, vector Point) int {
 	// printMatrix(matrix, prev, vector)
 
 	p := Point{prev.x + vector.x, prev.y + vector.y}
 
-	if p.y < 0 || p.y > len(*matrix)-1 || p.x < 0 || p.x > len((*matrix)[0])-1 {
+	if p.y < 0 || p.y > len(matrix)-1 || p.x < 0 || p.x > len(matrix[0])-1 {
 		return 0
 	}
 
-	if (*matrix)[p.y][p.x] != "#" {
+	if matrix[p.y][p.x] != "#" {
 		Path = append(Path, p)
 
-		if (*matrix)[p.y][p.x] == "." {
-			(*matrix)[p.y][p.x] = getVectorChar(vector)
+		if matrix[p.y][p.x] == "." {
+			matrix[p.y][p.x] = getVectorChar(vector)
 			return 1 + traverseMatrix(matrix, p, vector)
 		}
 
-		(*matrix)[p.y][p.x] = getVectorChar(vector)
+		matrix[p.y][p.x] = getVectorChar(vector)
 		return traverseMatrix(matrix, p, vector)
 	}
 
 	return traverseMatrix(matrix, prev, NextVector[str(vector)])
 }
 
-func parseInput(input string) (*[][]string, Point) {
+func parseInput(input string) ([][]string, Point) {
 	var matrix [][]string
 	var p Point
 
@@ -164,7 +164,7 @@ func parseInput(input string) (*[][]string, Point) {
 		}
 		matrix = append(matrix, row)
 	}
-	return &matrix, p
+	return matrix, p
 }
 
 func getVectorChar(v Point) string {
@@ -189,8 +189,8 @@ func strVector(p, v Point) string {
 	return fmt.Sprintf("%d,%d (%d,%d)", p.x, p.y, v.x, v.y)
 }
 
-// func printMatrix(matrix *[][]string, p Point, v Point) {
-// 	for j, line := range *matrix {
+// func printMatrix(matrix [][]string, p Point, v Point) {
+// 	for j, line := range matrix {
 // 		for i, val := range line {
 // 			if Obstacles[str(Point{i, j})] == 1 {
 // 				fmt.Print("O")

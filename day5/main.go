@@ -34,7 +34,7 @@ func main() {
 	fmt.Printf("Part 2: %v in %s\n", resPart2, timePart2)
 }
 
-func part2(lines [][]int, rulesAfter *map[int][]int, rulesBefore *map[int][]int) int {
+func part2(lines [][]int, rulesAfter map[int][]int, rulesBefore map[int][]int) int {
 	sum := 0
 
 	for _, line := range lines {
@@ -45,7 +45,7 @@ func part2(lines [][]int, rulesAfter *map[int][]int, rulesBefore *map[int][]int)
 	return sum
 }
 
-func sort(line []int, rulesAfter *map[int][]int, rulesBefore *map[int][]int) []int {
+func sort(line []int, rulesAfter map[int][]int, rulesBefore map[int][]int) []int {
 	isCorrect := true
 
 	for i, currNum := range line {
@@ -56,8 +56,8 @@ func sort(line []int, rulesAfter *map[int][]int, rulesBefore *map[int][]int) []i
 		numbersBefore := line[:i]
 		numbersAfter := line[i+1:]
 
-		ruleBefore := (*rulesBefore)[currNum]
-		ruleAfter := (*rulesAfter)[currNum]
+		ruleBefore := rulesBefore[currNum]
+		ruleAfter := rulesAfter[currNum]
 
 		for j, n := range numbersBefore {
 			if slices.Contains(ruleAfter, n) {
@@ -86,7 +86,7 @@ func sort(line []int, rulesAfter *map[int][]int, rulesBefore *map[int][]int) []i
 	}
 }
 
-func part1(lines [][]int, rulesAfter *map[int][]int, rulesBefore *map[int][]int) (int, [][]int) {
+func part1(lines [][]int, rulesAfter map[int][]int, rulesBefore map[int][]int) (int, [][]int) {
 	sum := 0
 	var incorrectLines [][]int
 
@@ -99,8 +99,8 @@ func part1(lines [][]int, rulesAfter *map[int][]int, rulesBefore *map[int][]int)
 			numbersBefore := line[:i]
 			numbersAfter := line[i+1:]
 
-			ruleBefore := (*rulesBefore)[currNum]
-			ruleAfter := (*rulesAfter)[currNum]
+			ruleBefore := rulesBefore[currNum]
+			ruleAfter := rulesAfter[currNum]
 
 			for _, n := range numbersBefore {
 				if slices.Contains(ruleAfter, n) {
@@ -125,7 +125,7 @@ func part1(lines [][]int, rulesAfter *map[int][]int, rulesBefore *map[int][]int)
 	return sum, incorrectLines
 }
 
-func parseInput(scanner *bufio.Scanner) ([][]int, *map[int][]int, *map[int][]int, error) {
+func parseInput(scanner *bufio.Scanner) ([][]int, map[int][]int, map[int][]int, error) {
 	var lines [][]int
 	secondPart := false
 	rulesBefore := make(map[int][]int)
@@ -161,5 +161,5 @@ func parseInput(scanner *bufio.Scanner) ([][]int, *map[int][]int, *map[int][]int
 		}
 	}
 
-	return lines, &rulesAfter, &rulesBefore, nil
+	return lines, rulesAfter, rulesBefore, nil
 }

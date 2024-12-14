@@ -42,18 +42,18 @@ func main() {
 	fmt.Printf("Part 2: %v in %s\n", resPart2, time)
 }
 
-func solve(matrix *[][]string) (int, int) {
+func solve(matrix [][]string) (int, int) {
 	sumP1 := 0
 	sumP2 := 0
 
-	for y, line := range *matrix {
+	for y, line := range matrix {
 		for x := range line {
 			if !Checked[Point{x, y}] {
 				points := []Point{}
 				area, perimeter := checkArea(matrix, x, y, 0, 0, &points)
 				sumP1 += area * perimeter
 
-				sides := calculateSides(&points)
+				sides := calculateSides(points)
 				sumP2 += area * sides
 			}
 		}
@@ -62,11 +62,11 @@ func solve(matrix *[][]string) (int, int) {
 	return sumP1, sumP2
 }
 
-func calculateSides(shape *[]Point) int {
+func calculateSides(shape []Point) int {
 	corners := map[Point]bool{}
 	duplicateCorners := map[Point]bool{}
 
-	for _, point := range *shape {
+	for _, point := range shape {
 		for _, corner := range getCorners(point) {
 			values := getValuesAroundCorner(corner, shape)
 
@@ -108,7 +108,7 @@ func getCorners(point Point) []Point {
 	return corners
 }
 
-func getValuesAroundCorner(corner Point, shape *[]Point) []bool {
+func getValuesAroundCorner(corner Point, shape []Point) []bool {
 	values := []bool{}
 	for _, vector := range []Point{
 		{0, 0},
@@ -116,16 +116,16 @@ func getValuesAroundCorner(corner Point, shape *[]Point) []bool {
 		{0, 1},
 		{1, 1},
 	} {
-		value := slices.Contains(*shape, Point{corner.x + vector.x, corner.y + vector.y})
+		value := slices.Contains(shape, Point{corner.x + vector.x, corner.y + vector.y})
 		values = append(values, value)
 	}
 	return values
 }
 
-func checkArea(matrix *[][]string, prevX int, prevY int, area int, perimeter int, points *[]Point) (int, int) {
-	sizeX := len((*matrix)[0])
-	sizeY := len(*matrix)
-	prevValue := (*matrix)[prevY][prevX]
+func checkArea(matrix [][]string, prevX int, prevY int, area int, perimeter int, points *[]Point) (int, int) {
+	sizeX := len(matrix[0])
+	sizeY := len(matrix)
+	prevValue := matrix[prevY][prevX]
 
 	Checked[Point{prevX, prevY}] = true
 	*points = append(*points, Point{prevX, prevY})
@@ -136,7 +136,7 @@ func checkArea(matrix *[][]string, prevX int, prevY int, area int, perimeter int
 		x := prevX + vector.x
 		y := prevY + vector.y
 		if x >= 0 && y >= 0 && x < sizeX && y < sizeY {
-			value := (*matrix)[y][x]
+			value := matrix[y][x]
 
 			if value == prevValue {
 				perimeter -= 1
@@ -151,12 +151,12 @@ func checkArea(matrix *[][]string, prevX int, prevY int, area int, perimeter int
 	return area, perimeter
 }
 
-func parseInput(input string) (*[][]string, error) {
+func parseInput(input string) ([][]string, error) {
 	matrix := [][]string{}
 	for _, line := range strings.Split(strings.TrimSpace(string(input)), "\n") {
 		arr := strings.Split(line, "")
 		matrix = append(matrix, arr)
 	}
 
-	return &matrix, nil
+	return matrix, nil
 }

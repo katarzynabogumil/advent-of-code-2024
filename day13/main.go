@@ -46,9 +46,9 @@ func main() {
 	fmt.Printf("Part 2: %v in %s\n", resPart2, timePart2)
 }
 
-func part2(input *[][]Point) int {
+func part2(input [][]Point) int {
 	tokens := 0
-	for _, machine := range *input {
+	for _, machine := range input {
 		a := FloatPoint{float64(machine[0].x), float64(machine[0].y)}
 		b := FloatPoint{float64(machine[1].x), float64(machine[1].y)}
 		c := FloatPoint{float64(machine[2].x + addToPrize), float64(machine[2].y + addToPrize)}
@@ -74,11 +74,11 @@ func countTokens(a FloatPoint, b FloatPoint, prize FloatPoint) int {
 	return 0
 }
 
-func part1(input *[][]Point) int {
+func part1(input [][]Point) int {
 	tokens := 0
-	for _, machine := range *input {
+	for _, machine := range input {
 		checkedPositions := map[Point]int{}
-		thisTokens := checkNextClick(machine[0], machine[1], machine[2], 0, 0, Point{0, 0}, 0, &checkedPositions)
+		thisTokens := checkNextClick(machine[0], machine[1], machine[2], 0, 0, Point{0, 0}, 0, checkedPositions)
 		if thisTokens != max {
 			tokens += thisTokens
 		}
@@ -86,11 +86,11 @@ func part1(input *[][]Point) int {
 	return tokens
 }
 
-func checkNextClick(a Point, b Point, prize Point, aClicks int, bClicks int, position Point, tokens int, checked *map[Point]int) int {
-	if val, ok := (*checked)[position]; ok && val <= tokens {
+func checkNextClick(a Point, b Point, prize Point, aClicks int, bClicks int, position Point, tokens int, checked map[Point]int) int {
+	if val, ok := checked[position]; ok && val <= tokens {
 		return max
 	}
-	(*checked)[position] = tokens
+	checked[position] = tokens
 
 	if position.x == prize.x && position.y == prize.y {
 		return tokens
@@ -114,7 +114,7 @@ func min(a int, b int) int {
 	}
 }
 
-func parseInput(input string) (*[][]Point, error) {
+func parseInput(input string) ([][]Point, error) {
 	lines := [][]Point{}
 	inputLines := strings.Split(strings.TrimSpace(string(input)), "\n")
 
@@ -151,5 +151,5 @@ func parseInput(input string) (*[][]Point, error) {
 
 	}
 
-	return &lines, nil
+	return lines, nil
 }

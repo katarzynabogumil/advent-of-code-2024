@@ -39,28 +39,28 @@ func solve(input []int, rounds int) int {
 
 	// Store all values for digits for all steps under rounds / 2
 	memoLimit := rounds / 2
-	digitMemo := prepareDigitMemo(memoLimit, &valuesMemo)
+	digitMemo := prepareDigitMemo(memoLimit, valuesMemo)
 
 	for _, num := range input {
-		count += getCount(num, rounds, digitMemo, &valuesMemo)
+		count += getCount(num, rounds, digitMemo, valuesMemo)
 	}
 
 	return count
 }
 
-func prepareDigitMemo(limit int, valuesMemo *map[int][]int) *map[[2]int]int {
+func prepareDigitMemo(limit int, valuesMemo map[int][]int) map[[2]int]int {
 	memo := make(map[[2]int]int)
 
 	for num := range 10 {
 		for i := range limit {
-			memo[[2]int{num, i}] = getCount(num, i+1, &memo, valuesMemo)
+			memo[[2]int{num, i}] = getCount(num, i+1, memo, valuesMemo)
 		}
 	}
 
-	return &memo
+	return memo
 }
 
-func getCount(initialNum int, rounds int, digitsMemo *map[[2]int]int, valuesMemo *map[int][]int) int {
+func getCount(initialNum int, rounds int, digitsMemo map[[2]int]int, valuesMemo map[int][]int) int {
 	count := 0
 	prevArr := []int{initialNum}
 
@@ -68,7 +68,7 @@ func getCount(initialNum int, rounds int, digitsMemo *map[[2]int]int, valuesMemo
 		arr := []int{}
 
 		for _, num := range prevArr {
-			if val, ok := (*digitsMemo)[[2]int{num, rounds - i - 1}]; ok {
+			if val, ok := digitsMemo[[2]int{num, rounds - i - 1}]; ok {
 				count += val
 			} else {
 				arr = append(arr, getNewValue(num, valuesMemo)...)
@@ -81,14 +81,14 @@ func getCount(initialNum int, rounds int, digitsMemo *map[[2]int]int, valuesMemo
 	return count + len(prevArr)
 }
 
-func getNewValue(num int, memo *map[int][]int) []int {
-	if val, ok := (*memo)[num]; ok {
+func getNewValue(num int, memo map[int][]int) []int {
+	if val, ok := memo[num]; ok {
 		return val
 	}
 
 	if num == 0 {
 		value := []int{1}
-		(*memo)[num] = value
+		memo[num] = value
 		return value
 	}
 
@@ -96,11 +96,11 @@ func getNewValue(num int, memo *map[int][]int) []int {
 
 	if length%2 == 0 {
 		value := split(num, length)
-		(*memo)[num] = value
+		memo[num] = value
 		return value
 	} else {
 		value := []int{num * 2024}
-		(*memo)[num] = value
+		memo[num] = value
 		return value
 	}
 }
