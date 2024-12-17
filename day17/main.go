@@ -50,7 +50,7 @@ var Instructions = map[int]func(o int) string{
 	5: func(o int) string {
 		value := getComboOperand(o) % 8
 		Pointer += 2
-		return strings.Join(strings.Split(strconv.Itoa(value), ""), ",")
+		return strconv.Itoa(value)
 	},
 	6: func(o int) string {
 		operand := getComboOperand(o)
