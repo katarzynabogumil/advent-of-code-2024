@@ -31,10 +31,7 @@ func main() {
 		fmt.Println(fmt.Errorf("can't read file"))
 	}
 
-	matrix, err := parseInput(string(input))
-	if err != nil {
-		fmt.Println(fmt.Errorf("can't parse file: %w", err))
-	}
+	matrix := parseInput(string(input))
 
 	resPart1, resPart2 := solve(matrix)
 	time := time.Since(start)
@@ -151,12 +148,12 @@ func checkArea(matrix [][]string, prevX int, prevY int, area int, perimeter int,
 	return area, perimeter
 }
 
-func parseInput(input string) ([][]string, error) {
+func parseInput(input string) [][]string {
 	matrix := [][]string{}
 	for _, line := range strings.Split(strings.TrimSpace(string(input)), "\n") {
 		arr := strings.Split(line, "")
 		matrix = append(matrix, arr)
 	}
 
-	return matrix, nil
+	return matrix
 }

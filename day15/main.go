@@ -21,9 +21,6 @@ func main() {
 	}
 
 	matrixP1, robotP1, matrixP2, robotP2, instructions := parseInput(string(input))
-	if err != nil {
-		fmt.Println(fmt.Errorf("can't parse file: %w", err))
-	}
 
 	resPart1 := solve(matrixP1, robotP1, instructions, false)
 	timePart1 := time.Since(start)

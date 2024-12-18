@@ -42,9 +42,6 @@ func main() {
 	}
 
 	matrix, start := parseInput(string(input))
-	if err != nil {
-		fmt.Println(fmt.Errorf("can't parse file: %w", err))
-	}
 
 	score, tilesCount := solve(matrix, start)
 	time := time.Since(startTime)
